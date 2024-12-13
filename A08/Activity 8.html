@@ -1,0 +1,45 @@
+<?php
+// Database connection
+$host = "localhost";
+$user = "root";
+$password = "";
+$dbname = "corememories";
+
+$conn = new mysqli($host, $user, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM islandsOfPersonality";
+$result = $conn->query($sql);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Inside Out Memories</title>
+</head>
+<body>
+<header>
+    <h1>Inside Out Memories</h1>
+    <h2>Explore the Islands of Personality</h2>
+</header>
+<main>
+    <section class="islands">
+        <?php while ($row = $result->fetch_assoc()): ?>
+        <article>
+            <h3><?= htmlspecialchars($row['name']) ?></h3>
+            <p><?= htmlspecialchars($row['shortDescription']) ?></p>
+            <a href="details.php?id=<?= $row['islandOfPersonalityID'] ?>">Learn More</a>
+        </article>
+        <?php endwhile; ?>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 Inside Out Memories. All rights reserved.</p>
+</footer>
+</body>
+</html>
+<?php $conn->close(); ?>
